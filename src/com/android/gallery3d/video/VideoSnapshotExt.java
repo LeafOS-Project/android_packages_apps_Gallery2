@@ -168,7 +168,11 @@ public class VideoSnapshotExt implements IVideoSnapshotListener {
                 if (bitmap == null) {
                     Log.w(TAG, "frame cannot be retrieved. ");
                 } else {
-                    retriever.release();
+                    try {
+                        retriever.release();
+                    } catch (IOException ex) {
+                        Log.e(TAG, "Exception", ex);
+                    }
                     if (DEBUG) {
                         Log.d(TAG, "retriever get frame resolution : " +
                                 bitmap.getHeight() + "x" + bitmap.getWidth());
@@ -177,7 +181,11 @@ public class VideoSnapshotExt implements IVideoSnapshotListener {
                     return bitmap;
                 }
             }
-            retriever.release();
+            try {
+                retriever.release();
+            } catch (IOException ex) {
+                Log.e(TAG, "Exception", ex);
+            }
             return null;
         }
 

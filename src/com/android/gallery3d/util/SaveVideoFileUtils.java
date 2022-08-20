@@ -24,14 +24,18 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore.Video;
 import android.provider.MediaStore.Video.VideoColumns;
+import android.util.Log;
 
 import com.android.gallery3d.filtershow.tools.SaveImage.ContentResolverQueryCallback;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SaveVideoFileUtils {
+    private static String TAG = "SaveVideoFileUtils";
+
     // This function can decide which folder to save the video file, and generate
     // the needed information for the video file including filename.
     public static SaveVideoFileInfo getDstMp4FileInfo(String fileNameFormat,
@@ -147,7 +151,11 @@ public class SaveVideoFileUtils {
         if (duration != null) {
             durationMs = Integer.parseInt(duration);
         }
-        retriever.release();
+        try {
+            retriever.release();
+        } catch(IOException ex) {
+            Log.e(TAG, "Exception", ex);
+        }
         return durationMs;
     }
 
